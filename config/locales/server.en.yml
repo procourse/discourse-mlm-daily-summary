@@ -1,0 +1,3 @@
+en:
+  site_settings:
+    mlm_daily_summary_enabled: 'Allow users to receive a daily email when on mailing list mode.'

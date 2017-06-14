@@ -1,0 +1,4 @@
+plugins:
+  mlm_daily_summary_enabled:
+    default: true
+    client: true
