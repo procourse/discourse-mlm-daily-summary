@@ -4,10 +4,14 @@ module DiscourseMlmDailySummary
 
     config.after_initialize do
 
+      User.register_custom_field_type('user_mlm_daily_summary_enabled', :boolean)
+
       require_dependency 'user_notifications'
       class ::UserNotifications
         def mailing_list(user, opts={})
-          @since = opts[:since] || 12.days.ago
+          prepend_view_path "plugins/discourse-mlm-daily-summary/app/views"
+
+          @since = opts[:since] || 1.day.ago
           @since_formatted = short_date(@since)
 
           topics = Topic
@@ -34,10 +38,23 @@ module DiscourseMlmDailySummary
             add_unsubscribe_link: true,
             unsubscribe_url: "#{Discourse.base_url}/email/unsubscribe/#{@unsubscribe_key}",
           }
-byebug
+
           apply_notification_styles(build_email(@user.email, opts))
         end
       end 
+
+      require_dependency 'user_serializer'
+      class ::UserSerializer
+        attributes :user_mlm_daily_summary_enabled
+        
+        def user_mlm_daily_summary_enabled
+          if !object.custom_fields["user_mlm_daily_summary_enabled"]
+            object.custom_fields["user_mlm_daily_summary_enabled"] = false
+            object.save
+          end
+          object.custom_fields["user_mlm_daily_summary_enabled"]
+        end
+      end
 
       module ::Jobs
         class EnqueueMlmDailySummary < Jobs::Scheduled

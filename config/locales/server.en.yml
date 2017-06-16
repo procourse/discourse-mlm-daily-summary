@@ -1,12 +1,13 @@
 en:
   site_settings:
     mlm_daily_summary_enabled: 'Allow users to receive a daily email when on mailing list mode.'
-  mlm_daily_summary:
-    why: "All activity on %{site_link} for %{date}"   
-    subject_template: "[%{email_prefix}] Summary for %{date}"   
-    unsubscribe: "This summary is sent daily due to mailing list mode being enabled. To unsubscribe %{unsubscribe_link}."   
-    from: "%{site_name} summary"    
-    new_topics: "New topics"    
-    topic_updates: "Topic updates"    
-    view_this_topic: "View this topic"    
-    back_to_top: "Back to top"
+  user_notifications:
+    mailing_list:
+      why: "All activity on %{site_link} for %{date}"   
+      subject_template: "[%{email_prefix}] Summary for %{date}"   
+      unsubscribe: "This summary is sent daily due to mailing list mode being enabled. To unsubscribe %{unsubscribe_link}."   
+      from: "%{site_name} summary"    
+      new_topics: "New topics"    
+      topic_updates: "Topic updates"    
+      view_this_topic: "View this topic"    
+      back_to_top: "Back to top"
