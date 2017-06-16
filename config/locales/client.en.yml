@@ -2,5 +2,5 @@ en:
   js:
     mlm_daily_summary:
       daily: "Send daily email summaries"
-      preference_label: "Enable mailing list mode daily summaries"
-      instructions: "You must have mailing list mode enabled for this to work and to receive a daily summary."
+      preference_label: "Enable daily summaries"
+      instructions: "You will receive a daily summary of the day's activity."

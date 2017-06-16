@@ -76,7 +76,7 @@ module DiscourseMlmDailySummary
                 .not_blocked
                 .joins(:user_option)
                 .where(id: enabled_ids)
-                .where(staged: false, user_options: { mailing_list_mode: true})
+                .where(staged: false)
                 .where("#{!SiteSetting.must_approve_users?} OR approved OR moderator OR admin")
                 .where("date_part('hour', first_seen_at) = date_part('hour', CURRENT_TIMESTAMP)")           # where the hour of first_seen_at is the same as the current hour
                 .where("COALESCE(first_seen_at, '2010-01-01') <= CURRENT_TIMESTAMP - '23 HOURS'::INTERVAL") # don't send unless you've been around for a day already
