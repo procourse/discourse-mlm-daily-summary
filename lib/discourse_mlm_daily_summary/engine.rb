@@ -46,7 +46,7 @@ module DiscourseMlmDailySummary
       require_dependency 'user_serializer'
       class ::UserSerializer
         attributes :user_mlm_daily_summary_enabled
-        
+
         def user_mlm_daily_summary_enabled
           if !object.custom_fields["user_mlm_daily_summary_enabled"]
             object.custom_fields["user_mlm_daily_summary_enabled"] = false
@@ -58,7 +58,7 @@ module DiscourseMlmDailySummary
 
       module ::Jobs
         class EnqueueMlmDailySummary < Jobs::Scheduled
-          every 1.day
+          every 1.hour
 
           def execute(args)
             return if SiteSetting.disable_mailing_list_mode?
@@ -69,18 +69,18 @@ module DiscourseMlmDailySummary
 
           def target_user_ids
             # Users who want to receive daily mailing list emails
+            enabled_ids = UserCustomField.where(name: "user_mlm_daily_summary_enabled", value: "true").pluck(:user_id)
             User.real
                 .activated
                 .not_suspended
                 .not_blocked
-                .where(id: 1)
+                .joins(:user_option)
+                .where(id: enabled_ids)
+                .where(staged: false, user_options: { mailing_list_mode: true})
+                .where("#{!SiteSetting.must_approve_users?} OR approved OR moderator OR admin")
+                .where("date_part('hour', first_seen_at) = date_part('hour', CURRENT_TIMESTAMP)")           # where the hour of first_seen_at is the same as the current hour
+                .where("COALESCE(first_seen_at, '2010-01-01') <= CURRENT_TIMESTAMP - '23 HOURS'::INTERVAL") # don't send unless you've been around for a day already
                 .pluck(:id)
-            #     .joins(:user_option)
-            #     .where(staged: false, user_options: { mailing_list_mode: true, mailing_list_mode_frequency: 0 })
-            #     .where("#{!SiteSetting.must_approve_users?} OR approved OR moderator OR admin")
-            #     .where("date_part('hour', first_seen_at) = date_part('hour', CURRENT_TIMESTAMP)")           # where the hour of first_seen_at is the same as the current hour
-            #     .where("COALESCE(first_seen_at, '2010-01-01') <= CURRENT_TIMESTAMP - '23 HOURS'::INTERVAL") # don't send unless you've been around for a day already
-            #     .pluck(:id)
           end
 
         end
