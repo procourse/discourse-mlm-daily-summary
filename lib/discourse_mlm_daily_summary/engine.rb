@@ -19,6 +19,7 @@ module DiscourseMlmDailySummary
             .includes(:posts)
             .for_digest(user, 100.years.ago)
             .where("posts.created_at > ?", @since)
+            .order("posts.id")
 
           unless user.staff?
             topics = topics.where("posts.post_type <> ?", Post.types[:whisper])
