@@ -74,7 +74,7 @@ module DiscourseMlmDailySummary
             User.real
                 .activated
                 .not_suspended
-                .not_blocked
+                .not_silenced
                 .joins(:user_option)
                 .where(id: enabled_ids)
                 .where(staged: false)
