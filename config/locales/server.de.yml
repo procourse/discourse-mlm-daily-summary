@@ -1,0 +1,13 @@
+de:
+  site_settings:
+    mlm_daily_summary_enabled: 'Erlaube Benutzern zusätzlich zum Mailinglisten Modus eine täglich Zusammenfassung zu empfangen.'
+  user_notifications:
+    mailing_list:
+      why: "Alle Aktivitäten von %{site_link} vom %{date}"   
+      subject_template: "[%{email_prefix}] Zusammenfassung vom %{date}"   
+      unsubscribe: "Diese Zusammenfassung wird täglich gesendet auch wenn ihr den Mailinglisten-Modus aktiviert habt. Zum deaktivieren dieser eMail klick hier: %{unsubscribe_link}."   
+      from: "%{site_name} Zusammenfassung"    
+      new_topics: "Neue Themen"    
+      topic_updates: "Neuigkeiten in bestehenden Themen"    
+      view_this_topic: "Dieses Thema auf der Seite anschauen"    
+      back_to_top: "Zurück zum Anfang"
