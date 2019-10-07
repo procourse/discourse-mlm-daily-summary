@@ -1,7 +1,7 @@
 {{#if siteSettings.mlm_daily_summary_enabled}}
   <div class="control-group">
     <label class="control-label">{{i18n 'mlm_daily_summary.daily'}}</label>
-    {{preference-checkbox labelKey="mlm_daily_summary.preference_label" checked=this.parentView._targetObject.model.custom_fields.user_mlm_daily_summary_enabled}}
+    {{preference-checkbox labelKey="mlm_daily_summary.preference_label" checked=model.custom_fields.user_mlm_daily_summary_enabled}}
     {{log this}}
     <div class='instructions'>{{{i18n 'mlm_daily_summary.instructions'}}}</div>
   </div>
