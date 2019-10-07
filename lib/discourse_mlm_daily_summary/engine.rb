@@ -8,6 +8,14 @@ module DiscourseMlmDailySummary
 
       require_dependency 'user_notifications'
       class ::UserNotifications
+        
+         def apply_notification_styles(email)
+                   email.html_part.body = Email::Styles.new(email.html_part.body.to_s).tap do |styles|
+                   styles.format_basic
+                   styles.format_html
+                   end.to_html
+                   email
+        
         def mailing_list(user, opts={})
           prepend_view_path "plugins/discourse-mlm-daily-summary/app/views"
 
