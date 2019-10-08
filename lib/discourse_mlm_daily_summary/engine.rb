@@ -15,7 +15,7 @@ module DiscourseMlmDailySummary
                    styles.format_html
                    end.to_html
                    email
-        
+         end
         def mailing_list(user, opts={})
           prepend_view_path "plugins/discourse-mlm-daily-summary/app/views"
 
