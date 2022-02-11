@@ -1,5 +1,4 @@
-import { observes } from 'ember-addons/ember-computed-decorators';
-import { default as computed } from "ember-addons/ember-computed-decorators";
+import { observes } from "discourse-common/utils/decorators";
 import EmailPreferencesController from 'discourse/controllers/preferences/emails';
 import UserController from 'discourse/controllers/user';
 
