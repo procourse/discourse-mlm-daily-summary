@@ -78,7 +78,7 @@ module DiscourseMlmDailySummary
 
           def target_user_ids
             # Users who want to receive daily mailing list emails
-            enabled_ids = UserCustomField.where(name: "user_mlm_daily_summary_enabled", value: "true").pluck(:user_id)
+            enabled_ids = UserCustomField.where(name: "user_mlm_daily_summary_enabled", value: true).pluck(:user_id)
             User.real
                 .activated
                 .not_suspended
