@@ -8,7 +8,7 @@ module DiscourseMlmDailySummary
 
       require_dependency 'user_notifications'
       class ::UserNotifications
-        
+
          def apply_notification_styles(email)
                    email.html_part.body = Email::Styles.new(email.html_part.body.to_s).tap do |styles|
                    styles.format_basic
@@ -17,6 +17,8 @@ module DiscourseMlmDailySummary
                    email
          end
         def mailing_list(user, opts={})
+          return unless SiteSetting.mlm_daily_summary_enabled
+
           prepend_view_path "plugins/discourse-mlm-daily-summary/app/views"
 
           @since = opts[:since] || 1.day.ago
@@ -50,7 +52,7 @@ module DiscourseMlmDailySummary
 
           apply_notification_styles(build_email(@user.email, opts))
         end
-      end 
+      end
 
       require_dependency 'user_serializer'
       class ::UserSerializer
@@ -71,6 +73,8 @@ module DiscourseMlmDailySummary
 
           def execute(args)
             return if SiteSetting.disable_mailing_list_mode?
+            return unless SiteSetting.mlm_daily_summary_enabled
+
             target_user_ids.each do |user_id|
               Jobs.enqueue(:user_email, type: :mailing_list, user_id: user_id)
             end
@@ -78,7 +82,7 @@ module DiscourseMlmDailySummary
 
           def target_user_ids
             # Users who want to receive daily mailing list emails
-            enabled_ids = UserCustomField.where(name: "user_mlm_daily_summary_enabled", value: "true").pluck(:user_id)
+            enabled_ids = UserCustomField.where(name: "user_mlm_daily_summary_enabled", value: true).pluck(:user_id)
             User.real
                 .activated
                 .not_suspended
